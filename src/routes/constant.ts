@@ -1,3 +1,4 @@
 
-export const MAIN_PAGE = "MAIN_PAGE"
-export const LOGIN_PAGE = "LOGIN_PAGE"
+export const MAIN_PAGE = "/"
+export const LOGIN_PAGE = "/login"
+export const ERROR_PAGE = "/error"
