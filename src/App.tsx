@@ -1,28 +1,24 @@
-import React, {useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import "./App.css"
-import * as routes from "./routes/routes"
-import {ERROR_PAGE, LOGIN_PAGE} from "./routes/constant";
-import {Navigate, Route, Routes} from "react-router-dom";
-import {LoginPage} from "./pages";
-import ErrorPage from "./pages/ErrorPage";
+import {AuthContext} from "./context/AuthContext"
+import AppRouter from "./components/AppRouter/AppRouter";
 const App = () => {
-  const isAuth = false
+    const [auth, setAuth] = useState(false)
+    useEffect(() => {
+        if (localStorage.getItem('authDs')) {
+            setAuth(true)
+        }
+    }, [])
     return (
-        <div>
-            {isAuth ?
-                <Routes>
-                    {routes.PRIVATE_ROUTE.map(item=>
-                        <Route path={item.path} element={item.component}/>
-                    )}
-                    <Route path={"*"} element={<ErrorPage/>}/>
-                </Routes> :
-                <Routes>
-                    {routes.PUBLIC_ROUTE.map(item=>
-                        <Route path={item.path} element={item.component}/>)}
-                    <Route path={"*"} element={<LoginPage/>}/>
-                </Routes>
-            }
-        </div>
+      <AuthContext.Provider value={{
+          auth, setAuth
+      }}>
+          <div>
+             <AppRouter/>
+          </div>
+      </AuthContext.Provider>
+
+
     );
 };
 
