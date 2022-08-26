@@ -5,7 +5,7 @@ import SubmitButton from "./component/SubmitButton";
 import {AuthContext} from "../../context/AuthContext";
 import {Navigate} from "react-router-dom";
 const LoginPage = () => {
-    const {auth, setAuth} = useContext(AuthContext)
+    const {setAuth} = useContext(AuthContext)
     const handleClick = () => {
         setAuth(true)
         localStorage.setItem("authDs", "true")
