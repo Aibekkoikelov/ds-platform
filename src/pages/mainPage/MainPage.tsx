@@ -3,9 +3,9 @@ import React from 'react';
 function MainPage ()  {
 
     return (
-        <>
-            fsdfsdf
-        </>
+        <div>
+            <h1>Главная страница</h1>
+        </div>
     );
 };
 

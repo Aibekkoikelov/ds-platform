@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./App.css"
 import {AuthContext} from "./context/AuthContext"
 import AppRouter from "./components/AppRouter/AppRouter";

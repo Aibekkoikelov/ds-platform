@@ -14,6 +14,21 @@ export const PRIVATE_ROUTE = [
         id:2,
         path: path.NEWS_PAGE,
         component: <component.NewsPage/>
+    },
+    {
+        id:3,
+        path: path.LESSON,
+        component: <component.LessonPage/>
+    },
+    {
+        id:4,
+        path: path.RESOURCE,
+        component: <component.ResourcePage/>
+    },
+    {
+        id:5,
+        path: path.HOME_WORK,
+        component: <component.HomeWorkPage/>
     }
 ]
 export const PUBLIC_ROUTE = [

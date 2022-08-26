@@ -4,9 +4,7 @@ function NewsPage() {
 
     return (
         <div className={style.news}>
-            <div className={style.container}>
-fwefwe
-            </div>
+            <h1>Страница новостей</h1>
         </div>
     );
 }
