@@ -9,6 +9,11 @@ export const PRIVATE_ROUTE = [
         id:1,
         path: path.MAIN_PAGE,
         component: <component.MainPage/>
+    },
+    {
+        id:2,
+        path: path.NEWS_PAGE,
+        component: <component.NewsPage/>
     }
 ]
 export const PUBLIC_ROUTE = [

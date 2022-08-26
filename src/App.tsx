@@ -2,6 +2,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import "./App.css"
 import {AuthContext} from "./context/AuthContext"
 import AppRouter from "./components/AppRouter/AppRouter";
+import Header from "./components/header/Header";
 const App = () => {
     const [auth, setAuth] = useState(false)
     useEffect(() => {
@@ -14,6 +15,7 @@ const App = () => {
           auth, setAuth
       }}>
           <div>
+              {auth && <Header/>}
              <AppRouter/>
           </div>
       </AuthContext.Provider>
