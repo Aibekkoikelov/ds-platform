@@ -3,7 +3,9 @@ import style from "../leson.module.scss"
 function LessonItem() {
     return (
         <div className={style.lesson_item}>
-            eertrte
+          <div className={style.date_day}>{"05"}</div>
+            <div className={style.date_month}>{"Август"}</div>
+
         </div>
     );
 }
