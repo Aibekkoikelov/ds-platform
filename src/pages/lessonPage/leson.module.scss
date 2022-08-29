@@ -1,13 +1,13 @@
 .lesson{
   &_list{
-   padding-top: 50px;
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     row-gap: 40px;
   }
   &_item{
     margin: 0 auto;
-    width: 1230px;
+    width: 1000px;
     height: 126px;
     background: #FFFFFF;
     border: 1px solid #E5E8ED;
@@ -21,6 +21,25 @@
     &:hover{
       box-shadow: rgb(0 0 0 / 5%) 4px 4px 25px;
       transform: scale(1.05)
+    }
+    &_title{
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 150%;
+      color: #1E212C;
+      margin-left: 50px;
+    }
+    &_btn{
+      width: 136px;
+      height: 44px;
+      border: 1px solid  #FF3F3A;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: auto;
+      text-decoration: none;
+      color: #FF3F3A;
     }
   }
 }

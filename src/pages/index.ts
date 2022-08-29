@@ -4,7 +4,7 @@ import NewsPage from "./news/NewsPage";
 import LessonPage from "./lessonPage/LessonPage";
 import ResourcePage from "./resource/ResourcePage";
 import HomeWorkPage from "./homeWork/HomeWorkPage";
-
+import LessonTopicPage   from "./lessonPage/LessonTopicPage";
 
 export {
     LoginPage,
@@ -12,5 +12,6 @@ export {
     NewsPage,
     LessonPage,
     ResourcePage,
-    HomeWorkPage
+    HomeWorkPage,
+    LessonTopicPage
 }

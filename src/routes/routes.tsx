@@ -29,6 +29,10 @@ export const PRIVATE_ROUTE = [
         id:5,
         path: path.HOME_WORK,
         component: <component.HomeWorkPage/>
+    },{
+        id:6,
+        path: path.LESSON_TOPIC,
+        component: <component.LessonTopicPage/>
     }
 ]
 export const PUBLIC_ROUTE = [
