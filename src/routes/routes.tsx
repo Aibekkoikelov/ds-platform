@@ -32,6 +32,10 @@ export const PRIVATE_ROUTE = [
     },{
         id:6,
         path: path.LESSON_TOPIC,
+        component: <component.LessonTopic/>
+    },{
+        id:7,
+        path: path.LESSON_TOPIC_PAGE,
         component: <component.LessonTopicPage/>
     }
 ]
