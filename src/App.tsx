@@ -1,27 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import "./App.css"
-import {AuthContext} from "./context/AuthContext"
-import AppRouter from "./components/AppRouter/AppRouter";
-import Header from "./components/header/Header";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectIsAuth } from './redux/slices/auth';
+import './App.css';
+import AppRouter from './components/AppRouter/AppRouter';
+import Header from './components/header/Header';
+
 const App = () => {
-    const [auth, setAuth] = useState(false)
-    useEffect(() => {
-        if (localStorage.getItem('authDs')) {
-            setAuth(true)
-        }
-    }, [])
-    return (
-      <AuthContext.Provider value={{
-          auth, setAuth
-      }}>
-          <div>
-              {auth && <Header/>}
-             <AppRouter/>
-          </div>
-      </AuthContext.Provider>
+  const isAuth = useSelector(selectIsAuth);
 
-
-    );
+  return (
+    <div>
+      {isAuth ? <Header /> : null}
+      <AppRouter />
+    </div>
+  );
 };
 
 export default App;

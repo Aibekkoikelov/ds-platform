@@ -1,38 +1,37 @@
 @import '../../variables';
 
-.header{
+.header {
   background-color: $main-color;
   height: 65px;
-  &_content{
+  &_content {
     display: flex;
     align-items: center;
     height: 100%;
   }
-  &_img{
+  &_img {
     height: 20px;
   }
 }
-.container{
+.container {
   max-width: 1300px;
   margin: 0 auto;
   height: 100%;
 }
-.navigation{
+.navigation {
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   margin-left: auto;
-  &_link{
+  &_link {
     text-decoration: none;
     font-size: 20px;
     margin-right: 15px;
     color: #fff;
   }
-  &_active{
+  &_active {
     text-decoration: none;
     font-size: 20px;
     margin-right: 15px;
     color: red;
   }
-
 }
