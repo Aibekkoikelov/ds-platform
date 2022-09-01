@@ -9,7 +9,7 @@ function AppRouter() {
     const {auth} = useContext(AuthContext)
     return (
         <div className={style.container}>
-            {auth ?
+            {auth  ?
                 <Routes>
                     {routes.PRIVATE_ROUTE.map(item=>
                         <Route key={item.id} path={item.path} element={item.component}/>
@@ -22,6 +22,7 @@ function AppRouter() {
                     <Route path={"*"} element={<LoginPage/>}/>
                 </Routes>
             }
+
         </div>
     );
 }
