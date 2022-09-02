@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Home } from '../index.js';
 
-function ResourcePage() {
-    return (
-        <div>
-            <h1>Ресурсы</h1>
-        </div>
-    );
-}
+const ResourcePage: FC = () => {
+  return (
+    <div>
+      <Home />
+    </div>
+  );
+};
 
 export default ResourcePage;

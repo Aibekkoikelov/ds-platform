@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-function MainPage ()  {
-
-    return (
-        <div>
-            <h1>Главная страница</h1>
-        </div>
-    );
+const MainPage: FC = () => {
+  return (
+    <div>
+      <h1>Главная страница</h1>
+    </div>
+  );
 };
 
 export default MainPage;

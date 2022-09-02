@@ -1,30 +1,43 @@
-import React, {useContext} from 'react';
-import {Route, Routes} from "react-router-dom";
-import * as routes from "../../routes/routes";
-import ErrorPage from "../../pages/ErrorPage";
-import {LoginPage, MainPage} from "../../pages";
-import {AuthContext} from "../../context/AuthContext";
-import style from "./router.module.scss"
-function AppRouter() {
-    const {auth} = useContext(AuthContext)
-    return (
-        <div className={style.container}>
-            {auth  ?
-                <Routes>
-                    {routes.PRIVATE_ROUTE.map(item=>
-                        <Route key={item.id} path={item.path} element={item.component}/>
-                    )}
-                    <Route path={"*"} element={<ErrorPage/>}/>
-                </Routes> :
-                <Routes>
-                    {routes.PUBLIC_ROUTE.map(item=>
-                        <Route key={item.id} path={item.path} element={item.component}/>)}
-                    <Route path={"*"} element={<LoginPage/>}/>
-                </Routes>
-            }
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
+import * as routes from '../../routes/routes';
+import style from './router.module.scss';
 
-        </div>
-    );
+function AppRouter() {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
+
+  React.useEffect(() => {
+    if (isAuth && window.localStorage.getItem('token')) {
+      return navigate('/');
+    }
+    return navigate('/login');
+  }, [isAuth]);
+
+  return (
+    <div className={style.container}>
+      {isAuth ? (
+        <Routes>
+          {routes.PRIVATE_ROUTE.map((item) => (
+            <Route key={item.id} path={item.path} element={item.component} />
+          ))}
+        </Routes>
+      ) : (
+        <Routes>
+          {routes.PUBLIC_ROUTE.map((item) => (
+            <Route key={item.id} path={item.path} element={item.component} />
+          ))}
+        </Routes>
+      )}
+    </div>
+  );
 }
 
 export default AppRouter;
