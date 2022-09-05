@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
+import { fetchAuth } from '../../redux/slices/auth';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -10,11 +10,12 @@ import { useForm } from 'react-hook-form';
 
 import styles from './Login.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
 
 const Login: FC = () => {
-  const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
 
   const {
     register,
@@ -27,9 +28,9 @@ const Login: FC = () => {
     },
     mode: 'all',
   });
+
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
-    console.log(data);
 
     if (!data.payload) {
       return alert('Не удалось авторизоваться');
@@ -40,9 +41,12 @@ const Login: FC = () => {
     }
   };
 
-  if (isAuth) {
-    return navigate('/');
-  }
+  React.useEffect(() => {
+    if (isAuth) {
+      return navigate('/');
+    }
+  }, [isAuth]);
+
   return (
     <Paper classes={{ root: styles.root }}>
       <Typography classes={{ root: styles.title }} variant="h5">

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRegister, selectIsAuth } from '../../redux/slices/auth';
+import { fetchRegister } from '../../redux/slices/auth';
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -12,9 +12,11 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 
 import styles from './Login.module.scss';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
 
 const Registration: FC = (): any => {
-  const isAuth = useSelector(selectIsAuth);
+  const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

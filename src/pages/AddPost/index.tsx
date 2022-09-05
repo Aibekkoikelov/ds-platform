@@ -8,21 +8,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { Link } from 'react-router-dom';
-import { selectIsAuth } from '../../redux/slices/auth';
+
 import { useSelector } from 'react-redux';
 import axios from '../../axios';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
 
 const AddPost: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const isAuth = useSelector(selectIsAuth);
+  const {
+    data: isAuth,
+    isLoading: Loading,
+    isError,
+  } = useGetAuthMeQuery('', { refetchOnFocus: true });
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
-  const inputFileRef = React.useRef(null);
 
   const isEditing = Boolean(id);
 
@@ -64,9 +68,11 @@ const AddPost: FC = () => {
   if (!window.localStorage.getItem('token') && !isAuth) {
     return navigate('/');
   }
+
   const onSubmit = async () => {
     try {
       setIsLoading(true);
+
       const fields = {
         title,
         imageUrl,
@@ -86,6 +92,8 @@ const AddPost: FC = () => {
     }
   };
 
+  const inputFileRef = React.useRef(null);
+
   React.useEffect(() => {
     if (id) {
       axios
@@ -102,6 +110,7 @@ const AddPost: FC = () => {
         });
     }
   }, []);
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -111,6 +120,7 @@ const AddPost: FC = () => {
         <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
           Загрузить превью
         </Button>
+
         <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
 
         {imageUrl && (

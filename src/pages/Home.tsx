@@ -8,20 +8,20 @@ import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 
-import { fetchPosts, fetchTags } from '../redux/slices/posts';
+import { useGetAllPostApiQuery } from '../redux/api/getAllPostApi';
+import MyLoader from '../components/UI/SkeletonPost/SkeletonPost';
+import { useGetAllTagsQuery } from '../redux/api/getAllTags';
 
 const Home: FC = () => {
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
-  const { posts, tags } = useSelector((state) => state.posts);
 
-  const isPostsLoading = posts.status === 'loading';
-  const isTagsLoading = tags.status === 'loading';
+  const { data: posts, isLoading, isError } = useGetAllPostApiQuery('', { refetchOnFocus: true });
 
-  React.useEffect(() => {
-    dispatch(fetchPosts());
-    dispatch(fetchTags());
-  }, []);
+  const {
+    data: tags,
+    isLoading: loading,
+    isError: Error,
+  } = useGetAllTagsQuery([''], { refetchOnFocus: true });
 
   return (
     <>
@@ -31,11 +31,11 @@ const Home: FC = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
-            isPostsLoading ? (
-              <Post key={index} isLoading={true} />
-            ) : (
+          {isLoading && [...Array(6)].map((_, index) => <MyLoader key={index} />)}
+          {posts?.map((obj) => {
+            return (
               <Post
+                key={obj._id}
                 id={obj._id}
                 title={obj.title}
                 imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
@@ -46,12 +46,13 @@ const Home: FC = () => {
                 tags={obj.tags}
                 isEditable={userData?._id === obj.user._id}
               />
-            ),
-          )}
+            );
+          })}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
-          <CommentsBlock
+          {!loading ? <TagsBlock items={tags} isLoading={loading} /> : null}
+
+          {/* <CommentsBlock
             items={[
               {
                 user: {
@@ -69,7 +70,7 @@ const Home: FC = () => {
               },
             ]}
             isLoading={false}
-          />
+          /> */}
         </Grid>
       </Grid>
     </>

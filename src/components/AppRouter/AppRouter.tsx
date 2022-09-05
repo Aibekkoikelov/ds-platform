@@ -1,18 +1,17 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'React';
+
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
+
 import * as routes from '../../routes/routes';
+import MyLoader from '../UI/SkeletonPost/SkeletonPost';
 import style from './router.module.scss';
 
 function AppRouter() {
-  const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
+  const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
 
-  React.useEffect(() => {
-    dispatch(fetchAuthMe());
-  }, []);
+  console.log(isAuth);
 
   React.useEffect(() => {
     if (isAuth && window.localStorage.getItem('token')) {
@@ -23,6 +22,8 @@ function AppRouter() {
 
   return (
     <div className={style.container}>
+      {isLoading && <h1>Loading....</h1>}
+
       {isAuth ? (
         <Routes>
           {routes.PRIVATE_ROUTE.map((item) => (
