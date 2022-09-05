@@ -11,8 +11,6 @@ function AppRouter() {
   const navigate = useNavigate();
   const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
 
-  console.log(isAuth);
-
   React.useEffect(() => {
     if (isAuth && window.localStorage.getItem('token')) {
       return navigate('/');

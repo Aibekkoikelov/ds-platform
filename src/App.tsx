@@ -7,6 +7,7 @@ import Header from './components/header/Header';
 import { useGetAuthMeQuery } from './redux/api/getAuthMe';
 
 const App = () => {
+
   const {
     data: isAuth,
     isLoading,
@@ -14,6 +15,7 @@ const App = () => {
   } = useGetAuthMeQuery('', {
     refetchOnFocus: true,
   });
+
 
   return (
     <div>
