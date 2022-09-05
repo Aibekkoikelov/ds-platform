@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import * as path from './constant';
 import * as component from '../pages';
-
-export const PRIVATE_ROUTE = [
+interface IRoute {
+  id: number
+  path: string
+  component: JSX.Element
+}
+export const PRIVATE_ROUTE: IRoute[]= [
   {
     id: 1,
     path: path.MAIN_PAGE,
@@ -50,13 +54,11 @@ export const PRIVATE_ROUTE = [
     path: path.FULL_POST,
     component: <component.FullPost />,
   },
-  ,
   {
     id: 10,
     path: path.ADD_POST,
     component: <component.AddPost />,
   },
-  ,
   {
     id: 11,
     path: path.REGISTRATION,
@@ -67,10 +69,10 @@ export const PRIVATE_ROUTE = [
     id: 12,
     path: path.FULL_POST_Edit,
     component: <component.AddPost />,
-  },
+  }
 ];
 
-export const PUBLIC_ROUTE = [
+export const PUBLIC_ROUTE: IRoute[] = [
   {
     id: 1,
     path: path.LOGIN,
