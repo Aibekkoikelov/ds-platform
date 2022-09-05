@@ -6,7 +6,7 @@ import AppRouter from './components/AppRouter/AppRouter';
 import Header from './components/header/Header';
 
 const App = () => {
-  const isAuth = useSelector(selectIsAuth);
+  const isAuth = true
 
   return (
     <div>

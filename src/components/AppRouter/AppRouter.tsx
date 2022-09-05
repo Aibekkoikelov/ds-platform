@@ -7,20 +7,20 @@ import style from './router.module.scss';
 
 function AppRouter() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
+  // const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    dispatch(fetchAuthMe());
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(fetchAuthMe());
+  // }, []);
 
-  React.useEffect(() => {
-    if (isAuth && window.localStorage.getItem('token')) {
-      return navigate('/');
-    }
-    return navigate('/login');
-  }, [isAuth]);
-
+  // React.useEffect(() => {
+  //   if (isAuth && window.localStorage.getItem('token')) {
+  //     return navigate('/');
+  //   }
+  //   return navigate('/login');
+  // }, [isAuth]);
+ const isAuth: boolean = true
   return (
     <div className={style.container}>
       {isAuth ? (
