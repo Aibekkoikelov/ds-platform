@@ -28,6 +28,7 @@ export const Post = ({
   isEditable,
 }) => {
   const dispatch = useDispatch();
+  
   if (isLoading) {
     return <PostSkeleton />;
   }

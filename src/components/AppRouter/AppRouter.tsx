@@ -1,32 +1,33 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
+
 import * as routes from '../../routes/routes';
+
 import style from './router.module.scss';
 
 function AppRouter() {
-  const dispatch = useDispatch();
-  // const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
+  const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
 
-  // React.useEffect(() => {
-  //   dispatch(fetchAuthMe());
-  // }, []);
+  React.useEffect(() => {
+    if (isAuth && window.localStorage.getItem('token')) {
+      return navigate('/');
+    }
+    return navigate('/login');
+  }, [isAuth]);
 
-  // React.useEffect(() => {
-  //   if (isAuth && window.localStorage.getItem('token')) {
-  //     return navigate('/');
-  //   }
-  //   return navigate('/login');
-  // }, [isAuth]);
- const isAuth: boolean = true
+
   return (
-    <div className={style.container}>
+    <div className={style.container}>1234
+
+      {isLoading && <h1>Loading....</h1>}
+
       {isAuth ? (
         <Routes>
-          {routes.PRIVATE_ROUTE.map((item) => (
-            <Route key={item.id} path={item.path} element={item.component} />
+          {routes.PRIVATE_ROUTE.map(({id, path, component}) => (
+            <Route key={id} path={path} element={component} />
           ))}
         </Routes>
       ) : (

@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './ui.module.scss';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';

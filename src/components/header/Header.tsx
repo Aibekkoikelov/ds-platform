@@ -1,25 +1,30 @@
 import React from 'react';
 import style from './header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectIsAuth } from '../../redux/slices/auth';
+import { logout } from '../../redux/slices/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import Navigation from './component/Navigation';
 import PeopleIcon from '@mui/icons-material/People';
 import Button from '@mui/material/Button';
 
 import styles from './header.module.scss';
+import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
 
 function Header() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
+
+  const { data: isAuth, isLoading, isError } = useGetAuthMeQuery('', { refetchOnFocus: true });
+
   const navigate = useNavigate();
+
   const onClickLogout = () => {
     if (window.confirm('Вы действительно хотите выйти?')) {
       dispatch(logout());
-      window.localStorage.removeItem('token');
+      localStorage.removeItem('token');
       navigate('/login');
     }
   };
+
   return (
     <div className={style.header}>
       <div className={style.container}>
