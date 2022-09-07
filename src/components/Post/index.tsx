@@ -11,7 +11,8 @@ import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchRemovePost } from '../../redux/slices/posts';
+import { useActions } from '../../hooks/actions';
+import { useDeletePostMutation } from '../../redux/api/deletePostApi';
 
 export const Post = ({
   id,
@@ -27,15 +28,20 @@ export const Post = ({
   isLoading,
   isEditable,
 }) => {
+  const [deletePost, { data, isLoading: Loading, isError }] = useDeletePostMutation(id);
+  const { deletePosts } = useActions();
   const dispatch = useDispatch();
-  
+
   if (isLoading) {
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {
+  const onClickRemove = (event: React.MouseEvent) => {
     if (window.confirm('Вы действительно хотите удалить ?')) {
-      dispatch(fetchRemovePost(id));
+      event.preventDefault();
+      deletePosts(id);
+      deletePost(id);
+      console.log(id);
     }
   };
 

@@ -9,46 +9,30 @@ import 'easymde/dist/easymde.min.css';
 import styles from './AddPost.module.scss';
 import { Link } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
 import axios from '../../axios';
 import { useGetAuthMeQuery } from '../../redux/api/getAuthMe';
+import { useAddImageMutation } from '../../redux/api/postImgFileApi';
+import CircularIndeterminate from '../../components/UI/Loader/Loader';
+import { useResourseMutation } from '../../redux/api/postResourceApi';
+import { usePatchIdPostMutation } from '../../redux/api/patchIdPost';
 
 const AddPost: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const {
-    data: isAuth,
-    isLoading: Loading,
-    isError,
-  } = useGetAuthMeQuery('', { refetchOnFocus: true });
+  const isEditing = Boolean(id);
+  const inputFileRef = React.useRef<MutableRefObject<null>>(null);
 
+  // TODO: SEARCH CASTOM LOADING && EDIT LOADING RTK QUERY
   const [isLoading, setIsLoading] = React.useState(false);
+
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
 
-  const isEditing = Boolean(id);
-
-  const handleChangeFile = async (event) => {
-    try {
-      const formData = new FormData();
-      const file = event.target.files[0];
-      formData.append('image', file);
-      const { data } = await axios.post('/upload', formData);
-      setImageUrl(data.url);
-    } catch (err) {
-      console.warn(err);
-      alert('Ошибка при загрузке файла');
-    }
-  };
-  const onClickRemoveImage = () => {
-    setImageUrl('');
-  };
-
-  const onChange = React.useCallback((value) => {
-    setText(value);
-  }, []);
+  const [addImage, { isLoading: isUpdating, isError: error, data }] = useAddImageMutation();
+  const [addResourse, { isLoading: isLoad, isError, data: resourse }] = useResourseMutation();
+  const [editPost, { isLoading: load, isError: err, data: edit }] = usePatchIdPostMutation();
 
   const options = React.useMemo(
     () => ({
@@ -65,14 +49,29 @@ const AddPost: FC = () => {
     [],
   );
 
-  if (!window.localStorage.getItem('token') && !isAuth) {
-    return navigate('/');
-  }
+  const onClickRemoveImage = () => {
+    setImageUrl('');
+  };
+
+  const onChange = React.useCallback((value) => {
+    setText(value);
+  }, []);
+
+  const handleChangeFile = async (event) => {
+    try {
+      const formData = new FormData();
+      const file = event.target.files[0];
+      formData.append('image', file);
+      await addImage({ formData });
+    } catch (err) {
+      console.warn(err);
+      alert('Ошибка при загрузке файла');
+    }
+  };
 
   const onSubmit = async () => {
     try {
       setIsLoading(true);
-
       const fields = {
         title,
         imageUrl,
@@ -80,9 +79,7 @@ const AddPost: FC = () => {
         text,
       };
 
-      const { data } = isEditing
-        ? await axios.patch(`posts/${id}`, fields)
-        : await axios.post('/posts', fields);
+      const { data } = isEditing ? await editPost({ id, fields }) : await addResourse({ fields });
 
       const _id = isEditing ? id : data._id;
       navigate(`/posts/${_id}`);
@@ -92,8 +89,13 @@ const AddPost: FC = () => {
     }
   };
 
-  const inputFileRef = React.useRef(null);
+  React.useEffect(() => {
+    if (data) {
+      setImageUrl(data.url);
+    }
+  }, [data]);
 
+  //TODO: Translate RTK QUERY
   React.useEffect(() => {
     if (id) {
       axios
@@ -120,10 +122,13 @@ const AddPost: FC = () => {
         <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
           Загрузить превью
         </Button>
+        <br />
+        <br />
+        {isUpdating ? <CircularIndeterminate /> : null}
 
         <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
 
-        {imageUrl && (
+        {imageUrl ? (
           <>
             <Button variant="contained" color="error" onClick={onClickRemoveImage}>
               Удалить
@@ -133,7 +138,7 @@ const AddPost: FC = () => {
 
             <img className={styles.image} src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
           </>
-        )}
+        ) : null}
 
         <br />
         <br />
