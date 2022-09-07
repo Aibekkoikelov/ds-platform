@@ -26,10 +26,10 @@ const Registration: FC = (): any => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      fullName: 'Мариф Пираев',
-      phoneNumber: '0556555444',
-      email: 'mari@gmail.com',
-      password: '1234567',
+      fullName: '',
+      phoneNumber: '',
+      email: '',
+      password: '',
     },
     mode: 'all',
   });
