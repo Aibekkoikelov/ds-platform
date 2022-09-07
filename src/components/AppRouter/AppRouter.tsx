@@ -18,15 +18,13 @@ function AppRouter() {
     return navigate('/login');
   }, [isAuth]);
 
-
   return (
-    <div className={style.container}>1234
-
+    <div className={style.container}>
       {isLoading && <h1>Loading....</h1>}
 
       {isAuth ? (
         <Routes>
-          {routes.PRIVATE_ROUTE.map(({id, path, component}) => (
+          {routes.PRIVATE_ROUTE.map(({ id, path, component }) => (
             <Route key={id} path={path} element={component} />
           ))}
         </Routes>

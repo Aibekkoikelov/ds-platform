@@ -6,7 +6,7 @@ const initialState: ServerResponse<IUser> | any = {
     items: JSON.parse(localStorage.getItem('Posts') ?? '[]'),
   },
   tags: {
-    items: [],
+    items: JSON.parse(localStorage.getItem('Posts') ?? '[]'),
   },
 };
 
